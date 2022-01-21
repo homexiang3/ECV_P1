@@ -1,0 +1,70 @@
+* {
+    padding:0;
+    margin:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    height: 100%;
+	background-image:url("img/background.jpg") ;
+  }
+
+
+.grid{
+    height:99%;
+    display:grid;
+    grid-template-columns: 25% 75%;
+    padding: 3em 10em 3em 10em;
+    column-gap:1em;/*
+    row-gap:1em;*/
+}
+
+.grid > div {
+    background: rgb(255, 255, 255);
+    transition: box-shadow .3s;  
+    border-radius: 25px;
+  }
+
+.contacts-grid {
+    display:grid;
+    grid-template-rows: 10% 90%;
+}
+
+.chat-grid {
+    display:grid;
+    grid-template-rows: 10% 80% 10%;
+}
+.contacts-list{
+    display: grid ;
+    grid-auto-flow: row ;
+    grid-auto-rows: 10%;
+    grid-template-columns: unset; 
+    grid-template-rows: unset;
+    overflow-y: auto;
+    padding: 0.5em;
+}
+.contact {
+    margin: 0.5em;
+    padding: 0.5em;
+    border: 1px black solid;
+    border-radius: 25px;
+}
+.contact:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2); 
+  }
+
+.own-info,.contact-info{
+    border-radius: 25px 25px 0 0;
+    padding: 0.5em;
+    background-color: #d2dbdc;
+    
+}
+.chat{
+    background-color:cornsilk;
+}
+.input-chat{
+    background-color:#d2dbdc ;
+    border-radius:0 0 25px 25px;
+}
+
+
