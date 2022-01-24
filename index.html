@@ -4,26 +4,49 @@
         <title>ECV P1</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link href="fontawesome.css" rel="stylesheet"> <!--load all styles -->
+        <!-- Text fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Roboto&display=swap" rel="stylesheet">
         <!-- Custom CSS -->
         <link href="style.css" rel="stylesheet">
     </head>
     <body>
-        <div class="grid">
-            <div class="contacts-grid">
-                <div class="own-info"><i class="fas fa-user-alt"></i></div>
-                <div class="contacts-list">
-                    <div class="contact"> 1</div>
-                    <div class="contact"> 2</div>      
-                               
-                </div>
-            </div>
-            <div class="chat-grid">
-                <div class="contact-info">test</div>
-                <div class="chat">test</div>
-                <div class="input-chat">test</div>
+        <div class="login-wrapper">
+            <div class="login">
+                    <div class="title">SCROLL<span class="title-4">4</span>U</div>
+                    <div class="inputs-login">
+                        <label for="main-username">Username:</label>
+                        <input type="text" id="main-username" name="main-username">
+                        <label for="main-chatroom">Chat Room:</label>
+                        <input type="text" id="main-chatroom" name="main-chatroom">
+                        <div class="button-wrapper">
+                            <button id="enter-chat-button">Enter</button>
+                        </div>
+                    </div>
             </div>
         </div>
+        <div class="grid-wrapper">
+            <div class="grid">
+                <div class="title">SCROLL<span class="title-4">4</span>U</div>
+                <div class="contacts-grid">
+                    <div class="own-info"></div>
+                    <div class="contacts-list">
+                        <div class="contact"> 1</div>
+                        <div class="contact"> 2</div>                                    
+                    </div>
+                    <div class="button-wrapper">
+                        <button id="exit-chat-button">Disconnect</button>
+                    </div>
+                </div>
+                <div class="chat-grid">
+                    <div class="contact-info">test</div>
+                    <div class="chat">test</div>
+                    <div class="input-chat">test</div>
+                </div>
+            </div>
+        </div>
+        <script src="sillyclient.js"></script> 
+        <script src="script.js"></script> 
     </body>
 </html>
