@@ -26,6 +26,18 @@ html,body{
     height:40px;
     margin:1em 0 1em 0;
     padding: 1em;
+    border-radius: 25px;
+}
+.input-chat input{
+    width:85%;
+    height:40px;
+    margin:1em;
+    padding: 1em;
+    border-radius: 25px;
+}
+
+button:hover, .send-button{
+    cursor: pointer;
 }
 .inputs-login{
     margin-top: 2em;
@@ -70,16 +82,16 @@ html,body{
     font-size:50px;
     color:#ff004a;
 }
-.contacts-grid,.chat-grid, .login, .login input{
+.contacts-grid,.chat-grid, .login{
     background: rgb(255, 255, 255);
     transition: box-shadow .3s;  
     border-radius: 25px;
-    border: 1px rgb(140, 140, 140) solid;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   }
 
 .contacts-grid {
     display:grid;
-    grid-template-rows: 10% 80% 10%;
+    grid-template-rows: 10% 90%;
 }
 
 .chat-grid {
@@ -103,7 +115,7 @@ html,body{
     border: 1px rgb(140, 140, 140) solid;
     border-radius: 25px;
 }
-.contact:hover,.login input:hover {
+.contact:hover,.login input:hover, #send-message:hover{
     box-shadow: 0 0 11px rgba(33,33,33,.2); 
   }
 
@@ -123,10 +135,53 @@ html,body{
     
 }
 
+.chat{
+    overflow: auto;
+}
+
+.msg-left, .msg-right{
+    display:flex;
+    margin: 0.25em;
+}
+
+.msg-content-left, .msg-content-right{
+    padding: 0.5em;
+    border: 1px rgb(140, 140, 140) solid;
+    border-radius: 25px;
+}
+.msg-username, .msg-time{
+    padding: 0.5em;
+}
+
+.msg-time{
+    font-size:smaller;
+    color:gray;
+}
+.msg-left{
+    justify-content: start;
+}
+.msg-right{
+    justify-content:end;
+}
+.msg-content-left{
+    background-color: rgb(216, 216, 216);
+}
+.msg-content-right{
+    background-color: rgb(248, 216, 192);
+}
+
 .input-chat{
     border-top: 1px rgb(140, 140, 140) solid;
     background-color: white;
     border-radius:0 0 25px 25px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.send-button{
+    width: 50px;
+    height: 50px;
 }
 
 
