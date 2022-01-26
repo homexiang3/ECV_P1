@@ -3,7 +3,6 @@ var username = null;
 var room_name = null;
 var my_id = null;
 var users_list = [];
-//var messages_list = [];
 var private_rooms_list = [];
 
 var userinput = document.querySelector("#main-username");
@@ -14,7 +13,10 @@ document.querySelector("#enter-chat-button").onclick = function(){
 	if(userinput.value != "" && chatinput.value != ""){
 		username = userinput.value;
 		room_name = chatinput.value;
-		server.connect("wss://tamats.com:55000","scroll4u-"+room_name);//wss://ecv-etic.upf.edu/node/9000/ws
+		server.connect("wss://ecv-etic.upf.edu/node/9000/ws","scroll4u-"+room_name);
+	}else{
+		document.querySelector(".alert").innerHTML = "You must fill both inputs to enter!"
+		document.querySelector(".alert").style.display = "block";
 	}
 };
 
@@ -25,7 +27,7 @@ server.on_connect = function(){
 	//create contact tab / info
 	var contact = document.createElement("div");
 	contact.classList.add("contact","active-contact");
-	contact.innerHTML = room_name;
+	contact.innerHTML = "Room: "+room_name;
 	contact.setAttribute("chat",room_name+"-public-room")
 	contact.addEventListener("click",clickContact);
 	document.querySelector(".contacts-list").appendChild(contact);
@@ -35,7 +37,7 @@ server.on_connect = function(){
 	public.setAttribute("id",room_name+"-public-room");
 	document.querySelector(".chat").appendChild(public);
 
-	document.querySelector(".contact-info").innerHTML = room_name;
+	document.querySelector(".contact-info").innerHTML = 'Room: '+room_name+'<span class="typing"></span>';
 	//open chat
 	document.querySelector(".login-wrapper").style.display = "none";
 	document.querySelector(".grid-wrapper").style.display = 'block';
@@ -102,24 +104,30 @@ function messageToDOM(msg, msgwrap, msgcontentwrap, name, id, chat){
 //Send the message to the user
 function addMessage(msg)
 {
-	var chat = document.querySelector(".active-contact").getAttribute("chat");
-	chat = document.querySelector("#"+chat);
-	//private or public messages
-	var type = "text";
+	if(message_input.value!=""){
+		var chat = document.querySelector(".active-contact").getAttribute("chat");
+		chat = document.querySelector("#"+chat);
+		//private or public messages
+		var type = "text";
 
-	if(chat.className == "private-room"){
-		type = "private";
+		if(chat.className == "private-room"){
+			type = "private";
+		}
+		
+		messageToDOM(msg, "msg-right", "msg-content-right",username,my_id,chat);
+		var mymessage = {
+			type: type,
+			username: username,
+			content: msg
+		};
+
+		if(type == "private"){
+			var id = parseInt(document.querySelector(".active-contact").getAttribute("user"));
+			server.sendMessage(JSON.stringify(mymessage),id);
+		}else{server.sendMessage(JSON.stringify(mymessage));}
+		
+		message_input.value = "";
 	}
-	
-	messageToDOM(msg, "msg-right", "msg-content-right",username,my_id,chat);
-	var mymessage = {
-		type: type,
-		username: username,
-		content: msg
-	};
-
-	server.sendMessage(JSON.stringify(mymessage));
-	message_input.value = "";
 }
 //On enter or clicking the send button we sned the message
 function onKeyPress(e)
@@ -129,8 +137,10 @@ function onKeyPress(e)
 		addMessage(message_input.value);
 }
 }
+
 send_button.addEventListener("click",function(){addMessage(message_input.value);},false);
 message_input.addEventListener("keydown", onKeyPress );
+
 
 //Create a new contact tab and private chat when clicking on the username
 function createPrivateChat(target_id,name){
@@ -145,8 +155,9 @@ function createPrivateChat(target_id,name){
 		//create contact tab
 		var contact = document.createElement("div");
 		contact.className = "contact";
-		contact.innerHTML = name;
-		contact.setAttribute("chat","u-"+target_id+"-room")
+		contact.innerHTML = "User: "+name;
+		contact.setAttribute("chat","u-"+target_id+"-room");
+		contact.setAttribute("user",target_id);
 		contact.addEventListener("click",clickContact);
 		var elem = document.querySelector(".contacts-list").appendChild(contact);
 		//focus on the newly created chat
@@ -160,6 +171,7 @@ function clickContact(){
 	previous.classList.remove("active-contact");
 	this.classList.add("active-contact");
 	var target_chat = this.getAttribute("chat")
+	document.querySelector(".contact-info").innerHTML = this.innerHTML + '<span class="typing"></span>';
 	showCurrentChat(target_chat);
 } 
 //function that hides chats and shows the current one
@@ -193,6 +205,11 @@ server.on_message = function( user_id, message ){
 		messageToDOM(m.content, "msg-left", "msg-content-left",m.username,m.id,chat); 
 	   });
    }else if(msg.type == "typing"){
+	   var typing = document.querySelector(".typing");
+	   typing.innerHTML = msg.username+" is typing...";
+	   setTimeout(function(){
+		typing.innerHTML = "";
+		}, 4000); 
    }else if(msg.type =="private"){
 	createPrivateChat(user_id,msg.username);
 	chat = document.querySelector("#u-"+user_id+"-room");
@@ -249,8 +266,9 @@ server.on_close = function(){
 	document.querySelector(".login-wrapper").style.display = "flex";
 	document.querySelector(".grid-wrapper").style.display = 'none';
 }
-/*this method is called when coulndt connect to the server
+
 server.on_error = function(err){
-	console.log(err);
-};*/
+	document.querySelector(".alert").innerHTML = "Server seems to be offline!"
+	document.querySelector(".alert").style.display = "block";
+};
 
